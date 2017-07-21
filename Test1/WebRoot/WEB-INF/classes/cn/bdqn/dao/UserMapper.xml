@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.bdqn.dao.UserMapper">
+
+    
+
+	<!-- 查询用户表记录数 -->
+	<select id="count" resultType="int">
+		select count(1) as count from smbms_user
+	</select>
+	
+	<select id="getByNameAndLoginname" resultType="User" parameterType="User">
+	    SELECT u.name,u.loginname,p.pro_name from smbms_user u join  
+	    smbms_provider p on u.user_id = p.user_id  where name like concat('%',#{name},'%')
+	</select>  
+	
+	<select id="getByNameAndLoginname2" resultType="user" parameterType="map">
+	    SELECT * from smbms_user  where name like concat('%',#{name},'%') and loginname like concat('%',#{loginname},'%')
+	</select> 
+	
+	<select id="getAll" resultType="User">
+	    select * from smbms_user
+	</select>
+	
+	<insert id="add" parameterType="entity.User" useGeneratedKeys="true" keyProperty="user_id">
+	 insert into smbms_user (name,loginname) value(#{name},#{loginname})
+	</insert>
+	
+	<update id="updateUser" parameterType="entity.User">
+	  update smbms_user set name=#{name} where user_id=#{user_id}
+	</update>
+	
+	<delete id="delete" parameterType="int">
+	 delete from smbms_user where user_id=#{user_id}
+	</delete>
+	
+</mapper>
